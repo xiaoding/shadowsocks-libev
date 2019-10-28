@@ -332,14 +332,13 @@ service shadowsocks_libev start
 ```
 
 #### Run as client
-By default, shadowsocks-libev is running as a server in FreeBSD. If you would like to start shadowsocks-libev in client mode, you can modify the rc script (`/usr/local/etc/rc.d/shadowsocks_libev`) manually.
+By default, shadowsocks-libev is running as a server in FreeBSD. If you would like to start shadowsocks-libev in client mode, you can override the default `ss-server` program with `ss-local` in `rc.conf`.
 
 ```
-# modify the following line from "ss-server" to "ss-local"
-command="/usr/local/bin/ss-local"
+# Add this variable to rc.conf to run shadowsocks in client mode
+shadowsocks_libev_program="/usr/local/bin/ss-local"
 ```
 
-Note that is simply a workaround, each time you upgrade the port your changes will be overwritten by the new version.
 
 ### OpenWRT
 
