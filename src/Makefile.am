@@ -9,7 +9,7 @@ AM_CFLAGS += -I$(top_srcdir)/libcork/include
 endif
 AM_CFLAGS += $(LIBPCRE_CFLAGS)
 
-SS_COMMON_LIBS = $(INET_NTOP_LIB) $(LIBPCRE_LIBS)
+SS_COMMON_LIBS = $(INET_NTOP_LIB) $(LIBPCRE_LIBS) $(NETFILTER_CONNTRACK_LIBS) $(NFTABLES_LIBS)
 if !USE_SYSTEM_SHARED_LIB
 SS_COMMON_LIBS += $(top_builddir)/libbloom/libbloom.la \
                   $(top_builddir)/libipset/libipset.la \
@@ -23,9 +23,6 @@ bin_PROGRAMS = ss-local ss-tunnel ss-server
 if !BUILD_WINCOMPAT
 bin_PROGRAMS += ss-manager
 endif
-
-sni_src = http.c \
-          tls.c
 
 acl_src = rule.c \
           acl.c
@@ -53,7 +50,6 @@ ss_local_SOURCES = local.c \
                    $(common_src) \
                    $(crypto_src) \
                    $(plugin_src) \
-                   $(sni_src) \
                    $(acl_src)
 
 ss_tunnel_SOURCES = tunnel.c \
@@ -66,7 +62,6 @@ ss_server_SOURCES = resolv.c \
                     $(common_src) \
                     $(crypto_src) \
                     $(plugin_src) \
-                    $(sni_src) \
                     ${acl_src}
 
 ss_manager_SOURCES = utils.c \
@@ -114,7 +109,7 @@ libshadowsocks_libev_la_LDFLAGS = -version-info $(VERSION_INFO)
 libshadowsocks_libev_la_LIBADD = $(ss_local_LDADD)
 include_HEADERS = shadowsocks.h
 
-noinst_HEADERS = acl.h crypto.h stream.h aead.h json.h netutils.h redir.h server.h tls.h uthash.h \
-                 cache.h http.h local.h plugin.h resolv.h tunnel.h utils.h base64.h ppbloom.h \
-                 common.h jconf.h manager.h protocol.h rule.h socks5.h udprelay.h winsock.h
+noinst_HEADERS = acl.h crypto.h stream.h aead.h json.h netutils.h redir.h server.h uthash.h \
+                 cache.h local.h plugin.h resolv.h tunnel.h utils.h base64.h ppbloom.h \
+                 common.h jconf.h manager.h rule.h socks5.h udprelay.h winsock.h
 EXTRA_DIST = ss-nat
